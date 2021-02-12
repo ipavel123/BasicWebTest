@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Задача №5</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<style>
+			.main {
+				font-family: Arial;
+				width: 30%;
+				margin: 50px auto;
+				box-sizing: border-box;
+				text-align: center;
+			}
+			ul {
+				box-sizing: border-box;
+				margin-bottom: 50px;
+				padding: 0;
+			}
+			ul > li {
+				margin: 10px 0;
+				color: #FFF;
+				background-color: #0067d8;
+				padding: 20px;
+				box-shadow: 1px 1px 3px gray;
+				border-radius: 10px;
+				transition: all .5s;
+				box-sizing: border-box;
+			}
+			ul > li:hover {
+				cursor: pointer;
+				background-color: #00a6ff;
+				margin: 10px -20px;
+			}
+			.message {
+				color: #626262;
+				margin-bottom: 10px;
+				border-radius: 10px;
+				border: 1px dashed #a6a6a6;
+				padding: 20px 10px;
+				font-family: Verdana;
+				font-size: .8em;
+			}
+			.message b {
+				font-size: 1.1em;
+			}
+			.message.success {
+				border-color: red;
+				color: red;
+			}
+			.hidden {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='main'>
+			<ul>
+				<li>Button 1</li>
+				<li>Button 2</li>
+				<li>Button 3</li>
+				<li>Button 4</li>
+				<li>Button 5</li>
+			</ul>
+			<div id='message-top' class='message hidden'></div>
+			<div id='message' class='message hidden'></div>
+		</div>
+	</body>
+	<script>
+		$(function ()
+		{
+			let timerInt, timerOut;
+
+			$('ul>li:nth-child(3)').on('click', function ()
+			{
+				clearInterval(timerInt);
+				clearTimeout(timerOut);
+				$('#message-top')
+						.removeClass('hidden')
+						.text('Пункт 1. В консоли появилось сообщение...');
+				console.log('Вы нажали на кнопку 3');
+			});
+			$('ul>li').on('click', function ()
+			{
+				clearInterval(timerInt);
+				clearTimeout(timerOut);
+				let obj = $(this);
+				let number = obj.index() + 1;
+				let seconds_out = 5;
+
+				$('#message').html('Пункт 2. Номер кнопки появится через (сек): <b>' + seconds_out + '</b>');
+
+				if (number !== 3)
+				{
+					$('#message-top').addClass('hidden');
+				}
+				$('#message').removeClass('success');
+				$('#message').removeClass('hidden');
+				timerInt = setInterval(() => {
+					$('#message > b').text(--seconds_out);
+				}, 1000);
+
+				timerOut = setTimeout(() => {
+					clearInterval(timerInt);
+					let text_message = 'Пункт 2. Вы нажали кнопку под номером: <b>' + number + '</b>';
+					$('#message').html(text_message);
+					$('#message').addClass('success');
+					console.log(text_message);
+				}, seconds_out * 1000);
+			});
+		})
+	</script>
+</html>
